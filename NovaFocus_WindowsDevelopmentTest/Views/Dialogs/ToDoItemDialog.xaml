@@ -1,0 +1,28 @@
+﻿<ui:ContentDialog
+    x:Class="NovaFocus_WindowsDevelopmentTest.Views.Dialogs.ToDoItemDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    x:Name="dialog"
+    d:DesignHeight="756"
+    d:DesignWidth="548"
+    CloseButtonText="Cancel"
+    DefaultButton="Primary"
+    PrimaryButtonText="Add To-Do"
+    mc:Ignorable="d">
+    <ui:SimpleStackPanel Spacing="12">
+
+        <Label Content="Add To Do Item" FontSize="26" />
+
+        <TextBox ui:ControlHelper.Header="Title" Text="" x:Name="title" />
+        <TextBox
+            Height="250"
+            x:Name="description"
+            ui:ControlHelper.Header="Description"
+            Text="" />
+
+
+    </ui:SimpleStackPanel>
+</ui:ContentDialog>

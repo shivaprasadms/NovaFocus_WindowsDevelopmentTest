@@ -1,0 +1,121 @@
+﻿<Window
+    x:Class="NovaFocus_WindowsDevelopmentTest.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:NovaFocus_WindowsDevelopmentTest.Views.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:vm="clr-namespace:NovaFocus_WindowsDevelopmentTest.ViewModels"
+    Title="NovaFocus_WPFTest"
+    Width="800"
+    Height="750"
+    ui:ThemeManager.IsThemeAware="True"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    mc:Ignorable="d">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+
+    <Window.Resources>
+        <converters:ToDoListItemWidthConverter x:Key="ItemWidthConverter" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--  Navigation Grid  -->
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+
+            <TabControl
+                Padding="12,0"
+                HorizontalAlignment="Center"
+                Style="{ui:StaticResource TabControlPivotStyle}">
+                <TabItem Header="To-Do Items" />
+
+                <TabItem Header="About" />
+            </TabControl>
+
+            <Button
+                Grid.Column="1"
+                Margin="5"
+                Padding="10"
+                VerticalAlignment="Top"
+                Command="{Binding OpenToDoItemContentDialogCommand}"
+                Content="Add To-Do Item" />
+
+        </Grid>
+
+        <!--  TO-DO list items grid  -->
+
+        <Grid Grid.Row="1" Margin="25,10">
+
+            <Grid.Resources>
+                <Style x:Key="ListItemPadding" TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </Grid.Resources>
+
+            <ListView ItemsSource="{Binding ToDoItems}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Center" Background="DimGray">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={StaticResource ItemWidthConverter}, ConverterParameter=150}" MaxWidth="1200" />
+                                <ColumnDefinition Width="75" />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+
+                            <StackPanel>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="{Binding Title}"
+                                    FontSize="22"
+                                    FontWeight="Bold" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="{Binding Description}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap" />
+
+                            </StackPanel>
+                            <Button
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding}"
+                                >
+                                <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74D;" />
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+
+    </Grid>
+</Window>
