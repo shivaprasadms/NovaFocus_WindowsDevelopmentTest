@@ -10,18 +10,22 @@
     d:DesignWidth="548"
     CloseButtonText="Cancel"
     DefaultButton="Primary"
+    IsPrimaryButtonEnabled="{Binding DataContext.AddToDoContentDialogButtonEnabled, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
     PrimaryButtonText="Add To-Do"
     mc:Ignorable="d">
     <ui:SimpleStackPanel Spacing="12">
 
         <Label Content="Add To Do Item" FontSize="26" />
 
-        <TextBox ui:ControlHelper.Header="Title" Text="" x:Name="title" />
         <TextBox
-            Height="250"
+            x:Name="title"
+            ui:ControlHelper.Header="Title"
+            Text="{Binding DataContext.ToDoTitleText, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox
             x:Name="description"
+            Height="250"
             ui:ControlHelper.Header="Description"
-            Text="" />
+            Text="{Binding DataContext.ToDoDescriptionText, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" />
 
 
     </ui:SimpleStackPanel>

@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace NovaFocus_WindowsDevelopmentTest.ViewModels
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : ViewModelBase
     {
         //ObservableCollection automatically updates UI when an item is inserted, internally implements INotifyPropertyChanged
 
@@ -16,22 +16,55 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
 
         public RelayCommand DeleteItemCommand { get; set; }
 
-        public MainWindowViewModel()
+        private string _toDoTitleText;
+        public string ToDoTitleText
         {
-            ToDoItems = new();
-            OpenToDoItemContentDialogCommand = new RelayCommand(ToDoItemContentDialog);
-            DeleteItemCommand = new RelayCommand(DeleteToDoItem);
+            get { return _toDoTitleText; }
+            set
+            {
+                SetProperty(ref _toDoTitleText, value);
+                UpdateButtonEnabled();
+            }
+        }
+
+        private string _toDoDescriptionText;
+        public string ToDoDescriptionText
+        {
+            get { return _toDoDescriptionText; }
+            set
+            {
+                SetProperty(ref _toDoDescriptionText, value);
+                UpdateButtonEnabled();
+            }
+        }
+
+        private bool _isAddToDoContentDialogButtonEnabled;
+        public bool AddToDoContentDialogButtonEnabled
+        {
+            get { return _isAddToDoContentDialogButtonEnabled; }
+            set { SetProperty(ref _isAddToDoContentDialogButtonEnabled, value); }
         }
 
 
-        private async void ToDoItemContentDialog(object obj)
+        public MainWindowViewModel()
+        {
+            ToDoItems = new();
+            OpenToDoItemContentDialogCommand = new RelayCommand(AddToDoItemContentDialog);
+            DeleteItemCommand = new RelayCommand(DeleteToDoItem);
+
+            ToDoItems.Add(new ToDoItemModel() { Title = "TEST", Description = "dshfshfskdhgfhsiuthgriewgtu TESTSTSTSS " });
+        }
+
+
+        private async void AddToDoItemContentDialog(object obj)
         {
             ToDoItemDialog dialog = new();
             var result = await dialog.ShowAsync();
 
-            if (result == ContentDialogResult.Primary)
+            if (result == ContentDialogResult.Primary && !string.IsNullOrEmpty(dialog.title.Text) && !string.IsNullOrEmpty(dialog.description.Text))
             {
                 ToDoItems.Add(new ToDoItemModel() { Title = dialog.title.Text, Description = dialog.description.Text });
+
             }
 
             // fix when todoitem is empty
@@ -47,5 +80,11 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
                 ToDoItems.Remove(item);
             }
         }
+
+        private void UpdateButtonEnabled()
+        {
+            AddToDoContentDialogButtonEnabled = !string.IsNullOrEmpty(ToDoTitleText) && !string.IsNullOrEmpty(ToDoDescriptionText);
+        }
+
     }
 }

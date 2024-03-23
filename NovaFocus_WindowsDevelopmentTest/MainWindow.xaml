@@ -82,23 +82,25 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-
-                            <StackPanel>
-
+                            <StackPanel >
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     Content="{Binding Title}"
+                                    
                                     FontSize="22"
-                                    FontWeight="Bold" />
+                                    FontWeight="Bold" Padding="15 5"                                    
+                                    />
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Text="{Binding Description}"
                                     TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap" />
+                                    FontSize="20"
+                                    TextWrapping="Wrap" Padding="15 0 15 10" />
 
                             </StackPanel>
+                            
                             <Button
                                 Grid.Row="0"
                                 Grid.RowSpan="2"
@@ -113,6 +115,20 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
             </ListView>
 
         </Grid>
