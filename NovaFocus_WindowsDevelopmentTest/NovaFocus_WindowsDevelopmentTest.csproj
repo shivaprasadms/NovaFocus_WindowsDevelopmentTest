@@ -7,6 +7,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CS8625,CS8618,CS8612</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CS8625,CS8618,CS8612</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
   </ItemGroup>

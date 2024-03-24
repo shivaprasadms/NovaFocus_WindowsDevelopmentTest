@@ -27,7 +27,7 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
 
 
         #region PRIVATE_FIELDS
-        private string _toDoTitleText;
+        private string _toDoTitleText = "";
         public string ToDoTitleText
         {
             get { return _toDoTitleText; }
@@ -38,7 +38,7 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
             }
         }
 
-        private string _toDoDescriptionText;
+        private string _toDoDescriptionText = "";
         public string ToDoDescriptionText
         {
             get { return _toDoDescriptionText; }
@@ -101,7 +101,9 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
                 foreach (string jsonObject in jsonObjects)
                 {
                     var model = JsonSerializer.Deserialize<ToDoItemModel>(jsonObject);
-                    ToDoItems.Add(model);
+
+                    if (model != null)
+                        ToDoItems.Add(model);
                 }
             }
             else
@@ -128,11 +130,14 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
 
                 foreach (string jsonObject in models)
                 {
-                    items.Add(JsonSerializer.Deserialize<ToDoItemModel>(jsonObject));
+                    var jsonItem = JsonSerializer.Deserialize<ToDoItemModel>(jsonObject);
+
+                    if (jsonItem != null)
+                        items.Add(jsonItem);
 
                 }
 
-                items.RemoveAll(model => model.Title == item.Title);
+                items.RemoveAll(model => model.Title == item?.Title);
 
                 string updatedJson = JsonSerializer.Serialize(items);
 
@@ -144,6 +149,7 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
                         sw.WriteLine(json);
                     }
                 }
+
             }
             else
             {
