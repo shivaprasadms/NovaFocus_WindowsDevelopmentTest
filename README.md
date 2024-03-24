@@ -11,6 +11,5 @@
 
 Credits : https://github.com/Kinnara/ModernWpf/tree/master
 
-Submitted by : Shivaprasad M S 
-Email : shivaprasadrms@gmail.com
+Submitted by : Shivaprasad M S <br/> Email : shivaprasadrms@gmail.com
 
