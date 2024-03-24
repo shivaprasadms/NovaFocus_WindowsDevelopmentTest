@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
+using System.Windows;
 
 namespace NovaFocus_WindowsDevelopmentTest.ViewModels
 {
@@ -130,20 +131,27 @@ namespace NovaFocus_WindowsDevelopmentTest.ViewModels
                     items.Add(JsonSerializer.Deserialize<ToDoItemModel>(jsonObject));
 
                 }
-            }
 
-            items.RemoveAll(model => model.Title == item.Title);
+                items.RemoveAll(model => model.Title == item.Title);
 
-            string updatedJson = JsonSerializer.Serialize(items);
+                string updatedJson = JsonSerializer.Serialize(items);
 
-            using (StreamWriter sw = new StreamWriter(JSONFilePath))
-            {
-                foreach (ToDoItemModel model in items)
+                using (StreamWriter sw = new StreamWriter(JSONFilePath))
                 {
-                    string json = JsonSerializer.Serialize(model);
-                    sw.WriteLine(json);
+                    foreach (ToDoItemModel model in items)
+                    {
+                        string json = JsonSerializer.Serialize(model);
+                        sw.WriteLine(json);
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("To-Do items save file not found!");
+                File.Create(JSONFilePath);
+            }
+
+
         }
 
         private void UpdateButtonEnabled()
