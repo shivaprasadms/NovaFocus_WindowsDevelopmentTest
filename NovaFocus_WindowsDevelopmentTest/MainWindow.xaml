@@ -21,6 +21,7 @@
 
     <Window.Resources>
         <converters:ToDoListItemWidthConverter x:Key="ItemWidthConverter" />
+        <converters:CollectionEmptyToVisibilityConverter x:Key="CollectionEmptyToVisibilityConverter" />
     </Window.Resources>
 
     <Grid>
@@ -30,31 +31,34 @@
         </Grid.RowDefinitions>
 
 
-        <!--  Navigation Grid  -->
         <Grid>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="7*" />
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
-
             <TabControl
-                Padding="12,0"
+                Padding="12,10"
                 HorizontalAlignment="Center"
                 Style="{ui:StaticResource TabControlPivotStyle}">
                 <TabItem Header="To-Do Items" />
-
-                <TabItem Header="About" />
             </TabControl>
 
             <Button
                 Grid.Column="1"
                 Margin="5"
                 Padding="10"
-                VerticalAlignment="Top"
                 Command="{Binding OpenToDoItemContentDialogCommand}"
                 Content="Add To-Do Item" />
+
+            <Button
+                Grid.Column="2"
+                Margin="5"
+                Padding="10"
+                Command="{Binding OpenAboutDialogCommand}"
+                Content="About" />
 
         </Grid>
 
@@ -68,10 +72,27 @@
                 </Style>
             </Grid.Resources>
 
-            <ListView ItemsSource="{Binding ToDoItems}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Padding="0,50"
+                HorizontalAlignment="Center"
+                FontSize="32"
+                Text="Add some TO-DO items :)"
+                Visibility="{Binding ToDoItems.Count, Converter={StaticResource CollectionEmptyToVisibilityConverter}}" />
+
+            <ListView Grid.Row="1" ItemsSource="{Binding ToDoItems}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid HorizontalAlignment="Center" Background="DimGray">
+
+                        <Grid
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            Background="#708090">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Converter={StaticResource ItemWidthConverter}, ConverterParameter=150}" MaxWidth="1200" />
                                 <ColumnDefinition Width="75" />
@@ -82,25 +103,25 @@
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
-                            <StackPanel >
-                                <Label
+                            <StackPanel>
+                                <TextBlock
                                     Grid.Row="0"
                                     Grid.Column="0"
-                                    Content="{Binding Title}"
-                                    
+                                    Padding="15,5"
                                     FontSize="22"
-                                    FontWeight="Bold" Padding="15 5"                                    
-                                    />
+                                    FontWeight="Bold"
+                                    Text="{Binding Title}"
+                                    TextTrimming="CharacterEllipsis" />
                                 <TextBlock
                                     Grid.Row="1"
                                     Grid.Column="0"
+                                    Padding="15,0,15,10"
+                                    FontSize="20"
                                     Text="{Binding Description}"
                                     TextTrimming="CharacterEllipsis"
-                                    FontSize="20"
-                                    TextWrapping="Wrap" Padding="15 0 15 10" />
-
+                                    TextWrapping="Wrap" />
                             </StackPanel>
-                            
+
                             <Button
                                 Grid.Row="0"
                                 Grid.RowSpan="2"
@@ -108,8 +129,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding}"
-                                >
+                                CommandParameter="{Binding}">
                                 <ui:FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74D;" />
                             </Button>
                         </Grid>

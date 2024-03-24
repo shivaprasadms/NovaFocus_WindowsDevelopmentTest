@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     x:Name="dialog"
+    MaxWidth="350"
     d:DesignHeight="756"
     d:DesignWidth="548"
     CloseButtonText="Cancel"
@@ -25,7 +26,8 @@
             x:Name="description"
             Height="250"
             ui:ControlHelper.Header="Description"
-            Text="{Binding DataContext.ToDoDescriptionText, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding DataContext.ToDoDescriptionText, RelativeSource={RelativeSource AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
 
 
     </ui:SimpleStackPanel>
